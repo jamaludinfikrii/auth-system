@@ -28,3 +28,9 @@
     // Hash satu arah
 
 
+
+
+
+// fikri@gmail.com // (fikri)
+
+// applikasi 

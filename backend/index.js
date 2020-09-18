@@ -163,6 +163,47 @@ app.post('/register' , (req,res) => {
 })
 
 
+app.post('/login', (req,res) => {
+    // get data from users {email & password}
+    const data = req.body
+
+    // password hash
+    const hmac = crypto.createHmac('sha256', 'abc123');
+    hmac.update(data.password);
+    const passwordHashed = hmac.digest('hex');
+
+    // baru query
+    db.query('select * from users where email = ? and password = ?;' ,[data.email,passwordHashed], (err,result) => {
+        try {
+            if(err) throw err
+            if(result.length ===0){
+                res.status(200).send({
+                    error : true,
+                    message : "Password or email invalid"
+                })
+            }else{
+                res.status(200).send({
+                    error : true,
+                    message : "login success",
+                    data : {
+                        id: result[0].id,
+                        email : result[0].email,
+                        created_at : result[0].created_at,
+                        is_email_confirmed : result[0].is_email_confirmed
+                    }
+                })
+            }
+
+        } catch (error) {
+            res.status(500).send({
+                error : true,
+                message : error.message
+            })
+        }
+    })
+})
+
+
 app.listen(PORT , () => console.log('API RUNNING ON PORT ' + PORT))
 
 

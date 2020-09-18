@@ -204,6 +204,25 @@ app.post('/login', (req,res) => {
 })
 
 
+app.patch('/user-email-verification',(req,res) => {
+    const data = req.body // {id,password}
+    db.query('update users set is_email_confirmed = 1 where id = ? and password = ?;',[data.id,data.password],(err,result) => {
+        try {
+            if(err) throw err
+            res.status(201).send({
+                error : false,
+                message : "user email verified"
+            })
+        } catch (error) {
+            res.status(500).send({
+                error : true,
+                message : error
+            })
+        }
+    })
+})
+
+
 app.listen(PORT , () => console.log('API RUNNING ON PORT ' + PORT))
 
 

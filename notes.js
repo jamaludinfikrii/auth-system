@@ -34,3 +34,27 @@
 // fikri@gmail.com // (fikri)
 
 // applikasi 
+
+
+// Router & Controller
+    // Router ==> Link nya ex. /register
+    // Controller ==> Block Of Code nya
+
+
+
+// password 123
+// hash dengan secret key abc
+// 123 = xdfthjik
+
+
+// 123 dengan secret key xyz
+// 123 = kljfasfl
+
+// 123 hash dengan secret key abc
+// 123 = xdfthjik
+
+
+
+// enable less secure
+// activate 2 step verification
+// create aplication spesific (email)

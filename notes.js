@@ -58,3 +58,5 @@
 // enable less secure
 // activate 2 step verification
 // create aplication spesific (email)
+
+console.log(__dirname)

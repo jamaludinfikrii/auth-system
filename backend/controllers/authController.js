@@ -2,6 +2,7 @@ const hashPassword = require('./../helpers/hash')
 const db = require('./../database/mysql')
 const validator = require("validator")
 const transporter = require('./../helpers/transporter')
+const fs = require('fs')
 
 
 const RegisterController = (req,res) => {
@@ -53,31 +54,30 @@ const RegisterController = (req,res) => {
                          try {
                              if(err) throw err
                              console.log(result)
-                             transporter.sendMail({
-                                 from : "Admin Sporteens",
-                                 subject : "Email Verification Sporteens",
-                                 to : data.email,
-                                 html : `
-                                 <h1> Hello , ${data.email} </h1>
-                                 <span>
-                                 Klik link 
-                                 <a href="https://www.google.com" target="_blank"> ini </a>
-                                 Untuk Memverifikasi Email Mu
-                                 </span>
-                                 `
-                             })
-                             .then((respons) => {
-                                 res.status(200).send({
-                                     error : false,
-                                     message : "Register Success, email already sent !!"
-                                 })
-                             })
-                             .catch((err) => {
-                                 res.status(500).send({
-                                     error: true,
-                                     message : err.message
-                                 })
-                             })
+                             
+                             fs.readFile('/Users/jamaludinfikri/Documents/Purwadhika/authentication-system/backend/template/emailConfirmation.html',{encoding : 'utf-8'},(err,file) => {
+                                    if(err) throw err
+                                    transporter.sendMail({
+                                        from : "Admin Sporteens",
+                                        subject : "Email Verification Sporteens",
+                                        to : data.email,
+                                        html : file
+                                    })
+                                    .then((respons) => {
+                                        res.status(200).send({
+                                            error : false,
+                                            message : "Register Success, email already sent !!"
+                                        })
+                                    })
+                                    .catch((err) => {
+                                        res.status(500).send({
+                                            error: true,
+                                            message : err.message
+                                        })
+                                    })
+                                
+                            })
+
  
  
  

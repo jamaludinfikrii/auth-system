@@ -2,6 +2,7 @@ const hashPassword = require('./../helpers/hash')
 const db = require('./../database/mysql')
 const validator = require("validator")
 const transporter = require('./../helpers/transporter')
+const handlebars = require('handlebars')
 const fs = require('fs')
 
 
@@ -57,11 +58,13 @@ const RegisterController = (req,res) => {
                              
                              fs.readFile('/Users/jamaludinfikri/Documents/Purwadhika/authentication-system/backend/template/emailConfirmation.html',{encoding : 'utf-8'},(err,file) => {
                                     if(err) throw err
+                                    const template = handlebars.compile(file)
+                                    const hasilTemplating = template({email : data.email , link : "https://www.google.com", text1 : "ini merupakan deskripsi teks 1",text2 : "ini merupakan deskripsi teks 2"})
                                     transporter.sendMail({
                                         from : "Admin Sporteens",
                                         subject : "Email Verification Sporteens",
                                         to : data.email,
-                                        html : file
+                                        html : hasilTemplating
                                     })
                                     .then((respons) => {
                                         res.status(200).send({
@@ -186,3 +189,13 @@ module.exports = {
     login : LoginController,
     verification : UserEmailVerificationController
 }
+
+
+// send email flow
+    // register user to db
+    // read html file with fs
+    // replace variable in html {{}} with handlebars
+    // send handlebars result to nodemailer
+
+    
+

@@ -1,5 +1,5 @@
 const express = require('express');
-const contr = require('./controllers/authController')
+const AuthRouter = require('./routers/authRouter')
 
 const app = express()
 app.use(express.json())
@@ -9,10 +9,7 @@ app.get('/' , (req,res) => {
     res.send("Hello")
 })
 
-app.post('/register',contr.register)
-app.post('/login',contr.login)
-app.patch('/user-email-verification',contr.verification)
-
+app.use('/auth',AuthRouter)
 
 app.listen(PORT , () => console.log('API RUNNING ON PORT ' + PORT))
 
@@ -20,19 +17,3 @@ app.listen(PORT , () => console.log('API RUNNING ON PORT ' + PORT))
 
 
 
-// password 123
-// hash dengan secret key abc
-// 123 = xdfthjik
-
-
-// 123 dengan secret key xyz
-// 123 = kljfasfl
-
-// 123 hash dengan secret key abc
-// 123 = xdfthjik
-
-
-
-// enable less secure
-// activate 2 step verification
-// create aplication spesific (email)

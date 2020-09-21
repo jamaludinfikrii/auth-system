@@ -20,7 +20,7 @@ export class App extends Component {
             <Route exact path='/' component={Home} />
             <Route path='/register' component={RegisterPage} />
             <Route path='/login' component={LoginPage} />
-            <Route path='/verification' component={VerificationSuccess} />
+            <Route path='/verification/:id/:password' component={VerificationSuccess} />
           </Switch>
         </Router>
       </div>

@@ -59,7 +59,7 @@ const RegisterController = (req,res) => {
                              fs.readFile('/Users/jamaludinfikri/Documents/Purwadhika/authentication-system/backend/template/emailConfirmation.html',{encoding : 'utf-8'},(err,file) => {
                                     if(err) throw err
                                     const template = handlebars.compile(file)
-                                    const hasilTemplating = template({email : data.email , link : "https://www.google.com", text1 : "ini merupakan deskripsi teks 1",text2 : "ini merupakan deskripsi teks 2"})
+                                    const hasilTemplating = template({email : data.email , link :"http://localhost:3000/verification/" + result.insertId + '/' + passwordHashed , text1 : "ini merupakan deskripsi teks 1",text2 : "ini merupakan deskripsi teks 2"})
                                     transporter.sendMail({
                                         from : "Admin Sporteens",
                                         subject : "Email Verification Sporteens",

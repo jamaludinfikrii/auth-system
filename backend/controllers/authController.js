@@ -149,7 +149,7 @@ const LoginController = (req,res) => {
                     try {
                         if(err) throw err
                         res.status(200).send({
-                            error : true,
+                            error : false,
                             message : "login success",
                             data : {
                                 token : token

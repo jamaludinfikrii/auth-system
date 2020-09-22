@@ -2,6 +2,7 @@ const hashPassword = require('./../helpers/hash')
 const db = require('./../database/mysql')
 const validator = require("validator")
 const transporter = require('./../helpers/transporter')
+const jwt = require('jsonwebtoken')
 const handlebars = require('handlebars')
 const fs = require('fs')
 
@@ -143,16 +144,26 @@ const LoginController = (req,res) => {
                     message : "Password or email invalid"
                 })
             }else{
-                res.status(200).send({
-                    error : true,
-                    message : "login success",
-                    data : {
-                        id: result[0].id,
-                        email : result[0].email,
-                        created_at : result[0].created_at,
-                        is_email_confirmed : result[0].is_email_confirmed
+
+                jwt.sign({email : result[0].email , id : result[0].id , is_email_confirmed : result[0].is_email_confirmed} , '123abc' , (err,token) => {
+                    try {
+                        if(err) throw err
+                        res.status(200).send({
+                            error : true,
+                            message : "login success",
+                            data : {
+                                token : token
+                            }
+                        })
+
+                    } catch (error) {
+                        res.json({
+                            error : true,
+                            message : error
+                        })
                     }
                 })
+
             }
 
         } catch (error) {

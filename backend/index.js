@@ -1,5 +1,6 @@
 const express = require('express');
 const AuthRouter = require('./routers/authRouter')
+const TodoRouter = require('./routers/todoRouter')
 const cors = require('cors')
 
 
@@ -15,6 +16,7 @@ app.get('/' , (req,res) => {
 })
 
 app.use('/auth',AuthRouter)
+app.use('/todo',TodoRouter)
 
 app.listen(PORT , () => console.log('API RUNNING ON PORT ' + PORT))
 

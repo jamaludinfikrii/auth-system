@@ -20,10 +20,10 @@ export class VerificationSuccess extends Component {
         myHeaders.append("Content-Type", "application/json");
 
         var requestOptions = {
-        method: 'PATCH',
-        headers: myHeaders,
-        body: data,
-        redirect: 'follow'
+            method: 'PATCH',
+            headers: myHeaders,
+            body: data,
+            redirect: 'follow'
         };
 
         fetch("http://localhost:4000/auth/user-email-verification", requestOptions)
@@ -31,7 +31,6 @@ export class VerificationSuccess extends Component {
             return response.text()
         })
         .then((result) => {
-            var dataRes = JSON.parse(result)
             this.setState({loading : false})
         })
 

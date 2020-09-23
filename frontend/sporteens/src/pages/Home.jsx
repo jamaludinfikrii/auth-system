@@ -8,7 +8,7 @@ export class Home extends Component {
                     <div className="row justify-content-center align-items-center">
                         <div className="col-md-6">
                             <div className="p-4 bg-secondary rounded">
-                                <h4 className='text-white text-center'>Welcome To Auth System</h4>
+                                <h4 className='text-white text-center'>Welcome To Todo Apps</h4>
                             </div>
                         </div>
                     </div>

@@ -193,12 +193,34 @@ const UserEmailVerificationController = (req,res) => {
     })
 }
 
+const isUserVerify = (req,res) => {
+    const token = req.body.token
+    console.log(token)
+    if(!token) return res.json({error : true,message :"Token not found"})
+    jwt.verify(token,'123abc',(err,data) => {
+        try {
+            if(err) throw err
+            db.query('select * from users where id = ?', data.id , (err,result) => {
+                try {
+                    if(err) throw err
+                    res.json({error : false, is_verified : result[0].is_email_confirmed})
+                } catch (error) {
+                    res.json({error : true,message :error.message,detail : error})
+                }
+            })
+        } catch (error) {
+            res.json({error : true,message :error.message,detail : error})
+        }
+    })
+}
+
 
 
 module.exports = {
     register : RegisterController,
     login : LoginController,
-    verification : UserEmailVerificationController
+    verification : UserEmailVerificationController,
+    isUserVerify
 }
 
 
@@ -207,6 +229,12 @@ module.exports = {
     // read html file with fs
     // replace variable in html {{}} with handlebars
     // send handlebars result to nodemailer
+
+
+
+
+// login ==> token ==> id,email,is_email_confirmed
+// verifikasi email
 
     
 

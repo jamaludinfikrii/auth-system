@@ -6,7 +6,7 @@
 
 // ONE TO MANY
     // Satu Kelas bisa banyak siswa
-    // Satu siswa cuma bisa pilih satu kelas
+    // Satu siswa cuma bisa pilih satu kelas, satu kelas bisa banyak siswa
 
     // Table many, nyatet PK table one
     // table siswa col = [id, name, id_kelas]

@@ -5,6 +5,7 @@ const Contr = require('./../controllers/authController')
 Router.post('/register' , Contr.register)
 Router.post('/login', Contr.login)
 Router.patch('/user-email-verification', Contr.verification)
+Router.post('/is-user-verified', Contr.isUserVerify)
 
 
 module.exports = Router

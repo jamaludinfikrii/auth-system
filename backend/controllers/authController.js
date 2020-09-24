@@ -7,6 +7,7 @@ const handlebars = require('handlebars')
 const fs = require('fs')
 
 
+
 const RegisterController = (req,res) => {
      // Get all data value
      const data = req.body // {email,password}
@@ -55,7 +56,7 @@ const RegisterController = (req,res) => {
                      db.query('insert into users set ?' , data , (err,result) => {
                          try {
                              if(err) throw err
-                             console.log(result)
+                            //  console.log(result)
                              
                              fs.readFile('/Users/jamaludinfikri/Documents/Purwadhika/authentication-system/backend/template/emailConfirmation.html',{encoding : 'utf-8'},(err,file) => {
                                     if(err) throw err
@@ -194,20 +195,11 @@ const UserEmailVerificationController = (req,res) => {
 }
 
 const isUserVerify = (req,res) => {
-    const token = req.body.token
-    console.log(token)
-    if(!token) return res.json({error : true,message :"Token not found"})
-    jwt.verify(token,'123abc',(err,data) => {
+    const data = req.bebas
+    db.query('select * from users where id = ?', data.id , (err,result) => {
         try {
             if(err) throw err
-            db.query('select * from users where id = ?', data.id , (err,result) => {
-                try {
-                    if(err) throw err
-                    res.json({error : false, is_verified : result[0].is_email_confirmed})
-                } catch (error) {
-                    res.json({error : true,message :error.message,detail : error})
-                }
-            })
+            res.json({error : false, is_verified : result[0].is_email_confirmed})
         } catch (error) {
             res.json({error : true,message :error.message,detail : error})
         }

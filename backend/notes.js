@@ -27,3 +27,10 @@
 
     // FK boleh di table mana aja
     // yang penting FK harus UNIQUE
+
+
+
+
+
+
+// MIDDLEWARE

@@ -1,3 +1,4 @@
+const util = require('util');
 const mysql = require('mysql')
 
 const db = mysql.createConnection({
@@ -7,5 +8,7 @@ const db = mysql.createConnection({
     database : "hoteloka"
 })
 
+const query = util.promisify(db.query).bind(db)
 
-module.exports = db
+
+module.exports = query

@@ -53,15 +53,15 @@ const RegisterController = (req,res) => {
              try {
                  if(err) throw err
                  if(result.length === 0){
-                     db.query('insert into users set ?' , data , (err,result) => {
+                     db.query('insert into users set ?' , data , (err,respInsert) => {
                          try {
                              if(err) throw err
                             //  console.log(result)
                              
-                             fs.readFile('/Users/jamaludinfikri/Documents/Purwadhika/authentication-system/backend/template/emailConfirmation.html',{encoding : 'utf-8'},(err,file) => {
+                             fs.readFile('/Users/jamaludinfikri/Documents/Purwadhika/Mobile/hoteloka/backend/backend/template/emailConfirmation.html',{encoding : 'utf-8'},(err,file) => {
                                     if(err) throw err
                                     const template = handlebars.compile(file)
-                                    const hasilTemplating = template({email : data.email , link :"http://localhost:3000/verification/" + result.insertId + '/' + passwordHashed , text1 : "ini merupakan deskripsi teks 1",text2 : "ini merupakan deskripsi teks 2"})
+                                    const hasilTemplating = template({email : data.email , link :"http://localhost:3000/verification/" + respInsert.insertId + '/' + passwordHashed , text1 : "ini merupakan deskripsi teks 1",text2 : "ini merupakan deskripsi teks 2"})
                                     transporter.sendMail({
                                         from : "Admin Sporteens",
                                         subject : "Email Verification Sporteens",
@@ -69,13 +69,24 @@ const RegisterController = (req,res) => {
                                         html : hasilTemplating
                                     })
                                     .then((respons) => {
-                                        res.status(200).send({
-                                            error : false,
-                                            message : "Register Success, email already sent !!"
+                                        jwt.sign({id : respInsert.insertId},'123abc',(err,token) => {
+                                            try {
+                                                if(err) throw err
+                                                res.send({
+                                                    error: false,
+                                                    message : "register success",
+                                                    token
+                                                })
+                                            } catch (error) {
+                                                res.send({
+                                                    error: true,
+                                                    message : err.message
+                                                })
+                                            }
                                         })
                                     })
                                     .catch((err) => {
-                                        res.status(500).send({
+                                        res.send({
                                             error: true,
                                             message : err.message
                                         })
@@ -90,20 +101,20 @@ const RegisterController = (req,res) => {
  
              
                          } catch (error) {
-                             res.status(500).send({
+                             res.send({
                                  error : true,
                                  message : error.message
                              })
                          }
                      })
                  }else{
-                     res.status(500).send({
+                     res.send({
                          error : true,
                          message : "Email already been registered"
                      })
                  }
              } catch (error) {
-                 res.status(500).send({
+                 res.send({
                      error : true,
                      message : error.message
                  })
@@ -115,7 +126,7 @@ const RegisterController = (req,res) => {
  
  
      } catch (error) {
-         res.status(406).send({
+         res.send({
              error : true,
              message : error
          })
@@ -140,21 +151,19 @@ const LoginController = (req,res) => {
         try {
             if(err) throw err
             if(result.length ===0){
-                res.status(200).send({
+                res.send({
                     error : true,
                     message : "Password or email invalid"
                 })
             }else{
 
-                jwt.sign({email : result[0].email , id : result[0].id , is_email_confirmed : result[0].is_email_confirmed} , '123abc' , (err,token) => {
+                jwt.sign({id : result[0].id} , '123abc' , (err,token) => {
                     try {
                         if(err) throw err
-                        res.status(200).send({
+                        res.send({
                             error : false,
                             message : "login success",
-                            data : {
-                                token : token
-                            }
+                            token
                         })
 
                     } catch (error) {
@@ -168,7 +177,7 @@ const LoginController = (req,res) => {
             }
 
         } catch (error) {
-            res.status(500).send({
+            res.send({
                 error : true,
                 message : error.message
             })
